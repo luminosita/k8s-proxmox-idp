@@ -1,5 +1,5 @@
 module "talos-image" {
-  source = "../../terraform-generic-talos/talos-image"
+  source = "../../modules/terraform-talos-image"
 
   providers = {
     talos = talos
@@ -11,7 +11,7 @@ module "talos-image" {
 module "proxmox-vm" {
   depends_on = [ module.talos-image ]
 
-  source = "../../terraform-generic-talos/proxmox-vm"
+  source = "../../modules/terraform-proxmox-vm"
 
   providers = {
     proxmox = proxmox
@@ -34,7 +34,7 @@ module "proxmox-vm" {
 module "talos-bootstrap" {
   depends_on = [ module.proxmox-vm ]
 
-  source = "../../terraform-generic-talos/talos-bootstrap"
+  source = "../../modules/terraform-talos-bootstrap"
 
   providers = {
     talos = talos
@@ -47,7 +47,7 @@ module "talos-bootstrap" {
 
 module "sealed_secrets" {
   depends_on = [ module.talos-bootstrap ]
-  source = "../../terraform-generic-talos/k8s-sealed-secrets"
+  source = "../../modules/terraform-sealed-secrets"
 
   providers = {
     kubernetes = kubernetes
@@ -62,7 +62,7 @@ module "sealed_secrets" {
 
 module "proxmox_csi_plugin" {
   depends_on = [ module.talos-bootstrap ]
-  source = "../../terraform-generic-talos/proxmox-csi-plugin"
+  source = "../../modules/terraform-proxmox-csi"
 
   providers = {
     proxmox    = proxmox
@@ -77,7 +77,7 @@ module "proxmox_csi_plugin" {
 
 module "volumes" {
   depends_on = [ module.proxmox_csi_plugin ]
-  source = "../../terraform-generic-talos/k8s-proxmox-volumes"
+  source = "../../modules/terraform-proxmox-volumes"
 
   providers = {
     restapi    = restapi
