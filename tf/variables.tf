@@ -77,12 +77,6 @@ variable "talos_nodes" {
     igpu          = optional(bool, false)
     })
   )
-  validation {
-    // @formatter:off
-    condition     = length([for n in var.talos_nodes : n if contains(["controlplane", "worker"], n.machine_type)]) == length(var.talos_nodes)
-    error_message = "Node machine_type must be either 'controlplane' or 'worker'."
-    // @formatter:on
-  }
 }
 
 variable "sealed_secrets_config" {
