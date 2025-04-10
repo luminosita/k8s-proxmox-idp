@@ -71,6 +71,8 @@ module "proxmox_csi_plugin" {
 
   #FIXME: Remove 
   proxmox = var.proxmox
+
+  cluster_name = var.talos_cluster_config.name
 }
 
 module "volumes" {
@@ -85,4 +87,6 @@ module "volumes" {
   #FIXME: Remove 
   proxmox_api = var.proxmox
   volumes = var.kubernetes_volumes
+
+  cluster_name = var.talos_cluster_config.name
 }
