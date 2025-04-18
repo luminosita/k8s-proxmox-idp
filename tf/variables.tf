@@ -38,14 +38,10 @@ variable "talos_image" {
 variable "talos_cluster_config" {
   description = "Cluster configuration"
   type = object({
-    name          = string
-    endpoint      = string
-    endpoint_port = optional(string)
-    vip           = optional(string)
-    network = object({
-      gateway     = string
-      subnet_mask = optional(string)
-    })
+    name                         = string
+    endpoint                     = string
+    endpoint_port                = optional(string)
+    vip                          = optional(string)
     talos_machine_config_version = string
     kubernetes_version           = string
     region                       = string
@@ -64,12 +60,19 @@ variable "talos_cluster_config" {
 variable "talos_nodes" {
   description = "Configuration for cluster nodes"
   type = map(object({
-    host_node     = string
-    machine_type  = string
-    datastore_id  = string
-    ip            = string
-    dns           = optional(list(string))
-    mac_address   = string
+    host_node    = string
+    machine_type = string
+    datastore_id = string
+    network = object({
+      dhcp        = bool
+      ip          = optional(string)
+      dns         = optional(list(string))
+      mac_address = string
+      gateway     = optional(string)
+      subnet_mask = optional(string)
+      device      = optional(string)
+      vlan_id     = optional(number)
+    })
     vm_id         = number
     cpu           = number
     ram_dedicated = number
