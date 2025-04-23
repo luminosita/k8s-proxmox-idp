@@ -39,6 +39,17 @@
 - [ ] Type of storage (fast, slow, archive, backup, block, file, object)
 
 # Misc
+- [ ] Only Proxy Server in DMZ 
+- [ ] Email Gateway
+- [ ] Firewall ACL based on username, security tags
+- [ ] CEF fast forwarding Cisco
+- [ ] Proxmox UEFI boot
+- [ ] OPNsense HA
+- [ ] Talos VM settings (OPNSense guide, homenetworkguy) 
+- [ ] Renovate (Terraform, Homebrew, Proxmox Apt, Talos, Kubernetes, Cilium, Routers, Argo, Flux) 
+- [ ] Netbox source of truth, versions instead of Flux/Terraform IAS controller
+- [ ] Verify #FIXME
+- [ ] iPerf3
 - [ ] K8s on bare metal vs VMs (hyperconverged) 
 - [ ] Build Cache for Android compilation and Gradle Android apps
 https://blog.gradle.org/remote-and-distributed-build-patterns
