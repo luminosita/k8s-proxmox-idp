@@ -1,6 +1,11 @@
 ## Issues
 - [ ] "scripts" folder
 - [ ] local vars into proper vars
+- [ ] Gateway API
+
+    --set gatewayAPI.enabled=true \
+    --set gatewayAPI.enableAlpn=true \
+    --set gatewayAPI.enableAppProtocol=true \
 
 ## 🏗️ Work in Progress
 
