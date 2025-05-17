@@ -1,4 +1,4 @@
-TOKEN:=$(shell hcp vault-secrets run --app=Packer -- env | grep PROXMOX_APITOKEN | sed -e s/PROXMOX_APITOKEN=//)
+TOKEN:=$(shell vault kv get --format=json secret/proxmox | jq '.data.data.api_token')
 
 export TF_VAR_proxmox_api_token=${TOKEN}
 
