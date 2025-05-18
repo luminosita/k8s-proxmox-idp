@@ -67,6 +67,9 @@ spec:
               entityId:
                 type: string
                 description: Entity ID
+              groupId:
+                type: string
+                description: Group ID
               userPassAccessor:
                 type: string
                 description: Userpass Accessor

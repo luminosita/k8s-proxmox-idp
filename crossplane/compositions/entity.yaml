@@ -56,6 +56,10 @@ spec:
         base:
           apiVersion: generic.vault.upbound.io/v1alpha1
           kind: Endpoint
+          spec:
+            forProvider:
+              disableRead: true
+              disableDelete: true
         patches:
         - type: PatchSet
           patchSetName: metadata
@@ -127,3 +131,6 @@ spec:
               convert:
                 toType: array
                 format: json
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.atProvider.id
+          toFieldPath: status.groupId

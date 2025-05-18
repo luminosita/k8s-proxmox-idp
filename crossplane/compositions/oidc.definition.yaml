@@ -35,4 +35,6 @@ spec:
                 items:
                   type: string
                 minItems: 1
+              groupName:
+                type: string
             required: [ id ]

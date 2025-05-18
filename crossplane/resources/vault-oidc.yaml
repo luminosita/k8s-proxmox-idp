@@ -49,9 +49,10 @@ metadata:
   name: my-oidc
   namespace: test
 spec:
-  id: laza
-  redirectUris: [ "https://auth.contoso.com:8443/oauth2/laza/authorization-code-callback" ]
-  scopesSupported: [ "email", "user", "groups" ]
   compositionSelector:
     matchLabels:
       provider: vault
+  id: laza
+  redirectUris: [ "https://auth.contoso.com:8443/oauth2/laza/authorization-code-callback" ]
+  scopesSupported: [ "email", "user", "groups" ]
+  groupName: engineering

@@ -19,6 +19,9 @@ metadata:
   name: my-entity
   namespace: test
 spec:
+  compositionSelector:
+    matchLabels:
+      provider: vault
   id: laza
   policy: 
     name: laza-oidc
@@ -34,6 +37,4 @@ spec:
   metadata:
     email: vault@hashicorp.com
   groupName: engineering
-  compositionSelector:
-    matchLabels:
-      provider: vault
+  

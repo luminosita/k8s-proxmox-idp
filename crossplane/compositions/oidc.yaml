@@ -25,6 +25,15 @@ spec:
         - fromFieldPath: spec.id
           toFieldPath: metadata.name
       resources:
+      - name: group
+        base:
+          apiVersion: identity.vault.upbound.io/v1alpha1
+          kind: Group
+          metadata:
+            labels: 
+              crossplane.io/claim-name=my-entity
+          spec:
+            managementPolicies: ["Observe"]
       - name: assignment
         base:
           apiVersion: identity.vault.upbound.io/v1alpha1
