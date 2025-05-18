@@ -33,7 +33,6 @@ variable "talos_cluster_config" {
   description = "Cluster configuration"
   type = object({
     name                         = string
-    endpoint                     = string
     endpoint_port                = optional(string)
     vip                          = optional(string)
     talos_machine_config_version = string
@@ -62,7 +61,7 @@ variable "talos_nodes" {
       dhcp        = bool
       ip          = optional(string)
       dns         = optional(list(string))
-      mac_address = string
+      mac_address = optional(string)
       gateway     = optional(string)
       subnet_mask = optional(string)
       device      = optional(string)

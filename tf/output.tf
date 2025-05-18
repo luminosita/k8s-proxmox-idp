@@ -16,10 +16,12 @@ output "talos_config" {
   sensitive = true
 }
 
-output "proxmox_vm" {
-  value = {
-    ipv4_addresses = local.vm_ips
-  }
+output "node_ips" {
+  value = module.talos-bootstrap.ipv4_addresses
+}
+
+output "cluster_endpoint" {
+  value = module.talos-bootstrap.cluster_endpoint
 }
 
 resource "local_file" "machine_configs" {
