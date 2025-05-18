@@ -35,9 +35,10 @@ variable "talos_cluster_config" {
     name                         = string
     endpoint_port                = optional(string)
     vip                          = optional(string)
-    talos_machine_config_version = string
+    talos_machine_config_version = optional(string)
     kubernetes_version           = string
     region                       = string
+    gateway_api_version          = string
     extra_manifests              = optional(list(string))
     kubelet                      = optional(string)
     api_server                   = optional(string)

@@ -8,18 +8,14 @@ talos_cluster_config = {
   # vip      = "192.168.50.99"
   # The version of talos features to use in generated machine configuration. Generally the same as image version.
   # See https://github.com/siderolabs/terraform-provider-talos/blob/main/docs/data-sources/machine_configuration.md
-  talos_machine_config_version = "v1.10.2"
-  region                       = "beograd"
-  kubernetes_version           = "v1.33.1" # renovate: github-releases=kubernetes/kubernetes
+  region              = "beograd"
+  kubernetes_version  = "v1.33.1" 
+  gateway_api_version = "v1.2.1"
   cilium = {
     bootstrap_manifest_path = "inline-manifests/cilium-install.yaml.tftpl"
     values_file_path        = "config/cilium/values.yaml.tftpl"
     version                 = "v1.17.4"
   }
-  extra_manifests = [
-    "https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml",
-    "https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.1/config/crd/experimental/gateway.networking.k8s.io_tlsroutes.yaml"
-  ]
   # kubelet    = <<-EOT
   #   extraArgs:
   #     # Needed for Netbird agent https://kubernetes.io/docs/tasks/administer-cluster/sysctl-cluster/#enabling-unsafe-sysctls
