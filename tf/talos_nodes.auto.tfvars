@@ -4,6 +4,7 @@ talos_nodes = {
     machine_type = "controlplane"
     network = {
       dhcp        = true
+      mac_address = "bc:24:11:2e:d8:00"
       device      = "vmbr1"
       vlan_id     = 20
     }
@@ -17,6 +18,7 @@ talos_nodes = {
     machine_type = "controlplane"
     network = {
       dhcp        = true
+      mac_address = "bc:24:11:2e:d8:01"
       device      = "vmbr0"
       vlan_id     = 20
     }
@@ -30,6 +32,7 @@ talos_nodes = {
     machine_type = "controlplane"
     network = {
       dhcp        = true
+      mac_address = "bc:24:11:2e:d8:02"
       device      = "vmbr0"
       vlan_id     = 20
     }
@@ -43,6 +46,7 @@ talos_nodes = {
     machine_type = "worker"
     network = {
       dhcp        = true
+      mac_address = "bc:24:11:2e:b8:00"
       device      = "vmbr0"
       vlan_id     = 20
     }

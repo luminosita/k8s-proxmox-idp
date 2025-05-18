@@ -62,7 +62,7 @@ variable "talos_nodes" {
       dhcp        = bool
       ip          = optional(string)
       dns         = optional(list(string))
-      mac_address = optional(string)
+      mac_address = string
       gateway     = optional(string)
       subnet_mask = optional(string)
       device      = optional(string)
