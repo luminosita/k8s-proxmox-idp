@@ -4,6 +4,7 @@ variable "proxmox" {
     name         = string
     cluster_name = string
     endpoint     = string
+    api_token    = string
     insecure     = bool
 
     ssh_username         = string
@@ -11,13 +12,6 @@ variable "proxmox" {
 
     iso_datastore = string
   })
-}
-
-#Value should be stored in a secure location (i.e HCP Vault) as "root@pam!<token_name>=<token_secret>"
-variable "proxmox_api_token" {
-  description = "API token for Proxmox"
-  type        = string
-  sensitive   = true
 }
 
 variable "talos_image" {

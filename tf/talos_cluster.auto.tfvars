@@ -5,17 +5,17 @@ talos_cluster_config = {
   #       Not sure how it works if connected to the same router via ethernet (does it act as a switch then???)
   # Ref: https://www.talos.dev/v1.9/talos-guides/network/vip/#requirements
   # Note This is Kubernetes API endpoint. Different from all mentions of Talos endpoints.
-  endpoint = "192.168.50.52"
+  endpoint = "172.16.20.50"
   #vip      = "192.168.50.99"
   # The version of talos features to use in generated machine configuration. Generally the same as image version.
   # See https://github.com/siderolabs/terraform-provider-talos/blob/main/docs/data-sources/machine_configuration.md
-  talos_machine_config_version = "v1.9.2"
-  region                       = "proxmox"
-  kubernetes_version           = "v1.32.3" # renovate: github-releases=kubernetes/kubernetes
+  talos_machine_config_version = "v1.10.2"
+  region                       = "beograd"
+  kubernetes_version           = "v1.33.1" # renovate: github-releases=kubernetes/kubernetes
   cilium = {
     bootstrap_manifest_path = "inline-manifests/cilium-install.yaml.tftpl"
     values_file_path        = "config/cilium/values.yaml.tftpl"
-    version                 = "v1.17.2"
+    version                 = "v1.17.4"
   }
   extra_manifests = [
     "https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.2.1/standard-install.yaml",

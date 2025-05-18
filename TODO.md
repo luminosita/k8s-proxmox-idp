@@ -1,6 +1,7 @@
 ## 🏗️ Work in Progress
 
 - [ ] Bash Terminal improvements (DevOps Toolkit)
+- [ ] Use a pre-upgrade / pre-install Helm hook to launch
 - [x] Proxmox Network Topography
 - [x] Cloudflare Terraform
 - [ ] Taskfile (DevOps Toolkit)
@@ -24,6 +25,7 @@
 - [x] Pipeline with functions
 - [x] SSH OTP 
 - [x] SSH CA
+- [ ] Observe resources
 - [ ] Composition Configuration Package
 
 ## Observability (DevOps Toolkit)
@@ -62,7 +64,8 @@
 
 - [ ] Dev setup                 (plan #1)
 - [ ] Kubernetes deployment     (plan #2)
-- [ ] Vault authentication      (plan #3)
+- [ ] Vault authentication OIDC     (plan #3)
+- [ ] .bashrc function to sign certificate for a Boundary session
 - [ ] Proxmox
 - [ ] OPNSense
 - [ ] Talos nodes (talosctl)
@@ -241,7 +244,8 @@
 - [ ] GitHub modules/submodules
 - [ ] GitLab CI/CD
 - [x] ArgoCD
-- [ ] Upload to Nexus
+- [ ] Gitea
+- [ ] GoReleaser
 
 # Microservice
 - [ ] Build 

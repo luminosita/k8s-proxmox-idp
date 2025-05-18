@@ -11,9 +11,7 @@ output
 *.lock.hcl
 
 output/
-
 **/tmp
-
 */config/certificate
-
 **/provider-config.yaml
+proxmox.auto.tfvars

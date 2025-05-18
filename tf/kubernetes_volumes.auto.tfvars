@@ -1,8 +1,8 @@
 kubernetes_volumes = {
   pv-test = {
-    node         = "proxmox"
+    node         = "noa"
     size         = "1G"
-    datastore_id = "vm-disks"
+    datastore_id = "local-lvm"
   }
   # pv-wikijs = {
   #   node = "proxmox"

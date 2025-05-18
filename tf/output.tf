@@ -5,8 +5,9 @@ output "kube_config" {
 
 output "versions" {
   value = {
-    talos_version      = var.talos_cluster_config.talos_machine_config_version
-    kubernetes_version = var.talos_cluster_config.kubernetes_version
+    talos_cluster_version = var.talos_cluster_config.talos_machine_config_version
+    talos_image_version   = var.talos_image.version
+    kubernetes_version    = var.talos_cluster_config.kubernetes_version
   }
 }
 
