@@ -44,10 +44,10 @@ spec:
       }
 ---
 apiVersion: kundun.dev/v1alpha1
-kind: OIDCClaim
+kind: OIDC
 metadata:
   name: my-oidc
-  namespace: test
+#  namespace: test
 spec:
   compositionSelector:
     matchLabels:

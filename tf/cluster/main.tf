@@ -1,5 +1,5 @@
 module "talos-bootstrap" {
-  source = "../../modules/terraform-talos-bootstrap"
+  source = "../../../modules/terraform-talos-bootstrap"
 
   providers = {
     talos = talos
@@ -13,7 +13,7 @@ module "talos-bootstrap" {
 
 module "sealed_secrets" {
   depends_on = [ module.talos-bootstrap ]
-  source = "../../modules/terraform-sealed-secrets"
+  source = "../../../modules/terraform-sealed-secrets"
 
   providers = {
     kubernetes = kubernetes
@@ -28,7 +28,7 @@ module "sealed_secrets" {
 
 module "proxmox_csi_plugin" {
   depends_on = [ module.talos-bootstrap ]
-  source = "../../modules/terraform-proxmox-csi"
+  source = "../../../modules/terraform-proxmox-csi"
 
   providers = {
     proxmox    = proxmox
@@ -43,7 +43,7 @@ module "proxmox_csi_plugin" {
 
 module "volumes" {
   depends_on = [ module.proxmox_csi_plugin ]
-  source = "../../modules/terraform-proxmox-volumes"
+  source = "../../../modules/terraform-proxmox-volumes"
 
   providers = {
     restapi    = restapi

@@ -12,6 +12,6 @@ output
 
 output/
 **/tmp
-*/config/certificate
+**/config/certificate
 **/provider-config.yaml
 proxmox.auto.tfvars
