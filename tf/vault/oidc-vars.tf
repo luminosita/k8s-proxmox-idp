@@ -1,0 +1,4 @@
+variable "oidc" {
+  type = object({
+  })
+}
