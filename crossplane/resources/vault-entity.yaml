@@ -16,10 +16,10 @@ stringData:
     }
 ---
 apiVersion: kundun.dev/v1alpha1
-kind: Entity
+kind: EntityClaim
 metadata:
   name: my-entity
-#  namespace: test
+  namespace: test
 spec:
   compositionSelector:
     matchLabels:

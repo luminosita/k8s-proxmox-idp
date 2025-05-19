@@ -1,8 +1,8 @@
 apiVersion: kundun.dev/v1alpha1
-kind: PKI
+kind: PKIClaim
 metadata:
   name: my-pki
-#  namespace: test
+  namespace: test
 spec:
   id: pki
   commonNamePrefix: Local
