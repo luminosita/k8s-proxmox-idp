@@ -9,15 +9,17 @@ stringData:
   fields: |
     {
       "password": "laza",
-      "token_policies": [ "oidc-auth" ],
+      "token_policies": [ 
+        "oidc-auth" 
+      ],
       "token_ttl": "1h"
     }
 ---
 apiVersion: kundun.dev/v1alpha1
-kind: EntityClaim
+kind: Entity
 metadata:
   name: my-entity
-  namespace: test
+#  namespace: test
 spec:
   compositionSelector:
     matchLabels:
