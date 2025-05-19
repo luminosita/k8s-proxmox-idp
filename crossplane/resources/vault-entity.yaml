@@ -9,7 +9,9 @@ stringData:
   fields: |
     {
       "password": "laza",
-      "token_policies": [ "oidc-auth" ],
+      "token_policies": [ 
+        "oidc-auth" 
+      ],
       "token_ttl": "1h"
     }
 ---
