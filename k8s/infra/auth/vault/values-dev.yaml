@@ -1,0 +1,7 @@
+global:
+  namespace: vault
+server:
+  dev:
+    enabled: true
+  injector:
+    enabled: false

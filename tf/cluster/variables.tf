@@ -93,6 +93,10 @@ variable "kubernetes_volumes" {
       datastore_id = string
       vmid         = optional(number)
       format       = optional(string)
+      claim_ref = list(object({
+        name      = string
+        namespace = optional(string)
+      }))
     })
   )
 }

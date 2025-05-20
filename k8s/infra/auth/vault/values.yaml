@@ -1,0 +1,113 @@
+# Vault Helm chart Value Overrides
+global:
+  enabled: true
+  tlsDisable: true
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 250m
+    limits:
+      memory: 256Mi
+      cpu: 250m
+
+server:
+  # Use the Enterprise Image
+  image:
+    repository: "hashicorp/vault"
+    tag: "1.16.1"
+
+  affinity: 
+  # These Resource Limits are in line with node requirements in the
+  # Vault Reference Architecture for a Small Cluster
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 1000m
+    limits:
+      memory: 2Gi
+      cpu: 1000m
+
+  # For HA configuration and because we need to manually init the vault,
+  # we need to define custom readiness/liveness Probe settings
+  readinessProbe:
+    enabled: true
+    path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
+  livenessProbe:
+    enabled: true
+    path: "/v1/sys/health?standbyok=true"
+    initialDelaySeconds: 60
+
+  # extraEnvironmentVars is a list of extra environment variables to set with the stateful set. These could be
+  # used to include variables required for auto-unseal.
+  extraEnvironmentVars:
+#    VAULT_TOKEN: /vault/userconfig/transit-vault-token/token
+#    VAULT_CACERT: /vault/userconfig/tls-ca/ca.crt
+
+  # extraVolumes is a list of extra volumes to mount. These will be exposed
+  # to Vault in the path `/vault/userconfig/<name>/`.
+#  extraVolumes:
+#    - type: secret
+#      name: transit-vault-token
+#    - type: secret
+#      name: tls-server
+#    - type: secret
+#      name: tls-ca
+#    - type: secret
+#      name: kms-creds
+
+  # This configures the Vault Statefulset to create a PVC for audit logs.
+  # See https://www.vaultproject.io/docs/audit/index.html to know more
+  auditStorage:
+    enabled: false
+
+  dataStorage:
+    enabled: true
+    storageClass: proxmox-csi
+    size: 100M
+
+  standalone:
+    enabled: false
+
+  # Run Vault in "HA" mode.
+  ha:
+    enabled: true
+    replicas: 3
+    raft:
+      enabled: true
+      setNodeId: true
+
+      config: |
+        storage "raft" {
+          path    = "/vault/data"
+
+          retry_join {
+            leader_api_addr = "http://vault-0.vault-internal:8200"
+          }
+        }
+
+        listener "tcp" {
+          address = "[::]:8200"
+          cluster_address = "[::]:8201"
+          tls_disable = true
+        }
+
+        seal "transit" {
+          address            = "http://vault-transit-0.vault-transit-internal:8200"
+          # token is read from VAULT_TOKEN env
+          disable_renewal    = "false"
+
+          // Key configuration
+          key_name           = "unseal_key"
+          mount_path         = "transit/"
+        }
+
+        ui = true
+        disable_mlock = true
+        cluster_addr = "http://127.0.0.1:8701"
+        cluster_name = "vault-integrated-storage"
+# Vault UI
+ui:
+  enabled: true
+  serviceType: "LoadBalancer"
+  serviceNodePort: null
+  externalPort: 8200

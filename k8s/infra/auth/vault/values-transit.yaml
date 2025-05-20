@@ -1,0 +1,100 @@
+# Vault Helm chart Value Overrides
+global:
+  enabled: true
+  namespace: vault
+  tlsDisable: true
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 250m
+    limits:
+      memory: 256Mi
+      cpu: 250m
+
+server:
+  # Use the Enterprise Image
+  image:
+    repository: "hashicorp/vault"
+    tag: "1.16.1"
+
+  affinity: 
+  # These Resource Limits are in line with node requirements in the
+  # Vault Reference Architecture for a Small Cluster
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 1000m
+    limits:
+      memory: 2Gi
+      cpu: 1000m
+
+  # For HA configuration and because we need to manually init the vault,
+  # we need to define custom readiness/liveness Probe settings
+  readinessProbe:
+    enabled: true
+    path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
+  livenessProbe:
+    enabled: true
+    path: "/v1/sys/health?standbyok=true"
+    initialDelaySeconds: 60
+
+  # extraEnvironmentVars is a list of extra environment variables to set with the stateful set. These could be
+  # used to include variables required for auto-unseal.
+  extraEnvironmentVars:
+#    VAULT_TOKEN: /vault/userconfig/transit-vault-token/token
+#    VAULT_CACERT: /vault/userconfig/tls-ca/ca.crt
+
+  # extraVolumes is a list of extra volumes to mount. These will be exposed
+  # to Vault in the path `/vault/userconfig/<name>/`.
+#  extraVolumes:
+#    - type: secret
+#      name: transit-vault-token
+#    - type: secret
+#      name: tls-server
+#    - type: secret
+#      name: tls-ca
+#    - type: secret
+#      name: kms-creds
+
+  # This configures the Vault Statefulset to create a PVC for audit logs.
+  # See https://www.vaultproject.io/docs/audit/index.html to know more
+  auditStorage:
+    enabled: false
+
+  dataStorage:
+    enabled: true
+    size: 50M
+    storageClass: proxmox-csi
+
+  standalone:
+    enabled: true
+
+    config: |-
+      ui = false
+      listener "tcp" {
+        address = "[::]:8200"
+        cluster_address = "[::]:8201"
+        tls_disable = true
+      }
+      storage "file" {
+        path = "/vault/data"
+      }
+
+# server:
+#   dev:
+#     enabled: true
+#     devRootToken: "root"
+#   extraContainers:
+#     # This example installs a plugin pulled from github into the /usr/local/libexec/vault/oauthapp folder,
+#     # which is defined in the volumes value.
+#     - name: unseal-key
+#       image: "alpine/curl"
+#       command: [sh, -c]
+#       args: 
+#         - 'sleep 5s &&
+#            export VAULT_ADDR="http://127.0.0.1:8200" &&
+#            curl --header "X-Vault-Token: root" --request POST --data "{\"type\":\"transit\"}" $VAULT_ADDR/v1/sys/mounts/transit &&
+#            curl --header "X-Vault-Token: root" --request POST $VAULT_ADDR/v1/transit/keys/unseal_key &&
+#            while true; do sleep 3600; done'
+
+

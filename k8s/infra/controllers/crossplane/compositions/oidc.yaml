@@ -30,10 +30,11 @@ spec:
           apiVersion: identity.vault.upbound.io/v1alpha1
           kind: Group
           metadata:
-            labels: 
-              crossplane.io/claim-name=my-entity
+            annotations: 
+              crossplane.io/external-name: 887dccfb-580a-af42-e8d3-9a7a78919e33
           spec:
             managementPolicies: ["Observe"]
+            forProvider:
       - name: assignment
         base:
           apiVersion: identity.vault.upbound.io/v1alpha1
