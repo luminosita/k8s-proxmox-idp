@@ -1,40 +1,40 @@
 kubernetes_volumes = {
-  pv-vault-transit = {
-    node         = "noa"
-    size         = "50M"
-    datastore_id = "local-lvm"
-    claim_ref = [{
-      name      = "data-vault-transit-0"
-      namespace = "vault"
-    }]
-  }
-  pv-vault-0 = {
-    node         = "noa"
-    size         = "100M"
-    datastore_id = "local-lvm"
-    claim_ref = [{
-      name      = "data-vault-0"
-      namespace = "vault"
-    }]
-  }
-  pv-vault-1 = {
-    node         = "lena"
-    size         = "100M"
-    datastore_id = "local-lvm"
-    claim_ref = [{
-      name      = "data-vault-1"
-      namespace = "vault"
-    }]
-  }
-  pv-vault-2 = {
-    node         = "mina"
-    size         = "100M"
-    datastore_id = "local-lvm"
-    claim_ref = [{
-      name      = "data-vault-2"
-      namespace = "vault"
-    }]
-  }
+  # pv-vault-transit = {
+  #   node         = "noa"
+  #   size         = "50M"
+  #   datastore_id = "local-lvm"
+  #   claim_ref = [{
+  #     name      = "data-vault-transit-0"
+  #     namespace = "vault"
+  #   }]
+  # }
+  # pv-vault-0 = {
+  #   node         = "noa"
+  #   size         = "100M"
+  #   datastore_id = "local-lvm"
+  #   claim_ref = [{
+  #     name      = "data-vault-0"
+  #     namespace = "vault"
+  #   }]
+  # }
+  # pv-vault-1 = {
+  #   node         = "lena"
+  #   size         = "100M"
+  #   datastore_id = "local-lvm"
+  #   claim_ref = [{
+  #     name      = "data-vault-1"
+  #     namespace = "vault"
+  #   }]
+  # }
+  # pv-vault-2 = {
+  #   node         = "mina"
+  #   size         = "100M"
+  #   datastore_id = "local-lvm"
+  #   claim_ref = [{
+  #     name      = "data-vault-2"
+  #     namespace = "vault"
+  #   }]
+  # }
 
   # pv-wikijs = {
   #   node = "proxmox"
