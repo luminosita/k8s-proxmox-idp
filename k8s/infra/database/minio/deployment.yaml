@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment  #FIXME:StatefulSet
+metadata:
+  name: minio
+  namespace: minio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      namespace: minio
+      labels:
+        app: minio
+    spec:
+      containers:
+        - name: minio
+          image: quay.io/minio/minio:latest
+          imagePullPolicy: Always
+          command:
+            - /bin/bash
+            - -c
+          args: 
+            - minio server /data --console-address :9001
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+            requests:
+              cpu: "0.5"
+              memory: "500Mi"
+          ports:
+            - name: data 
+              containerPort: 9000
+              protocol: TCP
+            - name: console
+              containerPort: 9001
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: pvc-minio

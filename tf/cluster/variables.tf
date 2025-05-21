@@ -44,8 +44,7 @@ variable "talos_cluster_config" {
     api_server                   = optional(string)
     cilium = object({
       version = string
-
-      bootstrap_manifest_path = optional(string)
+      extra_bootstrap_manifests = optional(list(string))
       values_file_path        = string
     })
   })
@@ -93,10 +92,6 @@ variable "kubernetes_volumes" {
       datastore_id = string
       vmid         = optional(number)
       format       = optional(string)
-      claim_ref = list(object({
-        name      = string
-        namespace = optional(string)
-      }))
     })
   )
 }

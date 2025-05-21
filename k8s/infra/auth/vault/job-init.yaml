@@ -1,0 +1,72 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-transit-vault
+  namespace: vault
+spec:
+  backoffLimit: 10
+  template:
+    metadata:
+      labels:
+        app: vault-init-transit-job
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: curl
+          image: "weprovide/alpine-curl-jq:3.12"
+          command: [sh, -c]
+          args: 
+            - sh /root/scripts/init-transit.sh
+          env:
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+          volumeMounts:
+            - name: init-script
+              mountPath: /root/scripts/
+              readOnly: true
+      volumes:
+        - name: init-script
+          configMap:
+            name: init-script
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-vault
+  namespace: vault
+spec:
+  backoffLimit: 10
+  template:
+    metadata:
+      labels:
+        app: vault-init-job
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: curl
+          image: "weprovide/alpine-curl-jq:3.12"
+          command: [sh, -c]
+          args: 
+            - sh /root/scripts/init.sh
+          env:
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: VAULT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: vault-transit-secret
+                  key: root_token
+          volumeMounts:
+            - name: init-script
+              mountPath: /root/scripts/
+              readOnly: true
+      volumes:
+        - name: init-script
+          configMap:
+            name: init-script

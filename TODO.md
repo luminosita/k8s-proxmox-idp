@@ -1,11 +1,13 @@
 ## 🏗️ Work in Progress
 
+- [ ] Talos VM UEFI bootloader
+- [ ] Talos VM settings (OPNSense guide, homenetworkguy) 
 - [ ] Bash Terminal improvements (DevOps Toolkit)
 - [ ] Use a pre-upgrade / pre-install Helm hook to launch
 - [x] Proxmox Network Topography
 - [x] Cloudflare Terraform
 - [ ] Taskfile (DevOps Toolkit)
-- [ ] Renovate (Terraform, Homebrew, Proxmox Apt, Talos, Kubernetes, Cilium, Routers, Argo, Flux) 
+- [ ] Renovate (Terraform, Homebrew, Proxmox Apt, Talos, Kubernetes, Cilium, Routers, Argo, Flux, search for "version:") 
 - [ ] ArgoCD for dev,staging,production environment
 - [ ] Nix Shell
 - [ ] App Management (DevOps Toolkit)
@@ -30,24 +32,36 @@
 
 ## Observability (DevOps Toolkit)
 
-- [ ] Grafana Stack 
+- [ ] Grafana Stack LGTM
 - [ ] Grafana Alerting
-
-## HA K8s
-
-- [ ] Kube VIP front loadbalancer
-- [ ] RBAC (DevOps Toolkit)
-- [ ] Mesh (DevOps Toolkit)
-- [ ] Canary Release (Gateway API) (DevOps Toolkit)
-- [ ] Testing (DevOps Toolkit)
-- [ ] Development Environments (DevOps Toolkit)
+- [ ] Pixie or Beyla
+- [ ] DDosify
+- [ ] Robusta
+- [ ] Komodor
+- [ ] Fiberplane post mortem 
+- [ ] Inspektor Gadget
 
 ## Databases
 
-- [ ] OpenLDAP Cluster
+- [ ] Vault
+    - [ ] Transit
+        - [ ] Unseal to Secret (init container)
+        - [ ] Create Unseal Key transit mount
+    - [ ] Vault Cluster
+        - [ ] Wait for the transit credentials secret to become available (argo presync hook ?)
+        - [ ] Auto unseal with transit Vault
+- [ ] Vault credentials injection
 - [ ] Minio
+    - [ ] StatefulSet with PVC Template
+    - [ ] Crossplane Bucket creation
+    - [ ] Admin credentials
 - [ ] PSQL (DevOps Toolkit)
-- [ ] PSQL Atlas Operator (DevOps Toolkit)
+    - [ ] Atlas Operator (DevOps Toolkit)
+    - [ ] Crossplane DB creation
+    - [ ] DB credentials (DevOps Toolkit - crossplane tutorial)
+- [ ] OpenLDAP (https://www.ibm.com/docs/en/rpa/23.0.x?topic=ldap-installing-configuring-openldap)
+    - [ ] slapd.d with Vault Template Inject (credentials)
+- [ ] Redis 
 
 ## API
 
@@ -113,11 +127,21 @@
 - [ ] Firewall ACL based on username, security tags
 - [ ] CEF fast forwarding Cisco
 - [x] Proxmox UEFI boot
-- [ ] Talos VM settings (OPNSense guide, homenetworkguy) 
-- [ ] Netbox source of truth, versions instead of Flux/Terraform IAS controller
 - [ ] Verify #FIXME
 - [ ] iPerf3
 - [ ] K8s on bare metal vs VMs (hyperconverged) 
+
+# HA K8s
+- [ ] Minio HA Cluster
+- [ ] PSQL HA Cluster
+- [ ] OpenLDAP HA Cluster (https://medium.com/niveus-solutions/how-did-we-manage-to-set-up-openldap-on-gcp-and-migrate-it-part-4-4e735140891d)
+- [ ] Redis HA
+- [ ] Kube VIP front loadbalancer
+- [ ] RBAC (DevOps Toolkit)
+- [ ] Mesh (DevOps Toolkit)
+- [ ] Canary Release (Gateway API) (DevOps Toolkit)
+- [ ] Testing (DevOps Toolkit)
+- [ ] Development Environments (DevOps Toolkit)
 
 
 

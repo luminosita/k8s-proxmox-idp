@@ -12,9 +12,8 @@ talos_cluster_config = {
   kubernetes_version  = "v1.33.1" 
   gateway_api_version = "v1.2.1"
   cilium = {
-    bootstrap_manifest_path = "inline-manifests/cilium-install.yaml.tftpl"
-    values_file_path        = "config/cilium/values.yaml.tftpl"
     version                 = "v1.17.4"
+    values_file_path        = "../../k8s/infra/network/cilium/values.yaml"
   }
   # kubelet    = <<-EOT
   #   extraArgs:

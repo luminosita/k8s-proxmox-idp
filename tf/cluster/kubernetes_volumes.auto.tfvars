@@ -1,4 +1,15 @@
 kubernetes_volumes = {
+  # pv-minio = {
+  #   node = "noa"
+  #   size = "1G"
+  #   datastore_id = "local-lvm"
+  # }
+  # pv-cnpg = {
+  #   node = "noa"
+  #   size = "1G"
+  #   datastore_id = "local-lvm"
+  # }
+
   # pv-vault-transit = {
   #   node         = "noa"
   #   size         = "50M"

@@ -1,0 +1,30 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: internal-selfsigned
+  namespace: gateway
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      io.cilium/lb-ipam-ips: 172.16.20.200
+  listeners:
+    - hostname: "*.kundun.dev"
+      protocol: HTTPS
+      port: 443
+      name: https-gateway
+      tls:  
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: cert-kundun-wildcard-selfsigned
+      allowedRoutes:
+        namespaces:
+          from: All
+    - hostname: "*.lan"
+      protocol: HTTP
+      port: 80
+      name: http-lan-gateway
+      allowedRoutes:
+        namespaces:
+          from: All

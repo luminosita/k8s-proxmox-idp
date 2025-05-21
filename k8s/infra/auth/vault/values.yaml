@@ -22,10 +22,10 @@ server:
   resources:
     requests:
       memory: 1Gi
-      cpu: 1000m
+      cpu: 500m
     limits:
       memory: 2Gi
-      cpu: 1000m
+      cpu: 500m
 
   # For HA configuration and because we need to manually init the vault,
   # we need to define custom readiness/liveness Probe settings
@@ -36,24 +36,10 @@ server:
     enabled: true
     path: "/v1/sys/health?standbyok=true"
     initialDelaySeconds: 60
-
-  # extraEnvironmentVars is a list of extra environment variables to set with the stateful set. These could be
-  # used to include variables required for auto-unseal.
-  extraEnvironmentVars:
-#    VAULT_TOKEN: /vault/userconfig/transit-vault-token/token
-#    VAULT_CACERT: /vault/userconfig/tls-ca/ca.crt
-
-  # extraVolumes is a list of extra volumes to mount. These will be exposed
-  # to Vault in the path `/vault/userconfig/<name>/`.
-#  extraVolumes:
-#    - type: secret
-#      name: transit-vault-token
-#    - type: secret
-#      name: tls-server
-#    - type: secret
-#      name: tls-ca
-#    - type: secret
-#      name: kms-creds
+  extraSecretEnvironmentVars:
+    - envName: VAULT_TOKEN
+      secretName: vault-transit-secret
+      secretKey: root_token
 
   # This configures the Vault Statefulset to create a PVC for audit logs.
   # See https://www.vaultproject.io/docs/audit/index.html to know more
@@ -63,7 +49,7 @@ server:
   dataStorage:
     enabled: true
     storageClass: proxmox-csi
-    size: 100M
+    size: 100Mi
 
   standalone:
     enabled: false
@@ -94,20 +80,22 @@ server:
         seal "transit" {
           address            = "http://vault-transit-0.vault-transit-internal:8200"
           # token is read from VAULT_TOKEN env
+          # token              = ""
           disable_renewal    = "false"
 
           // Key configuration
           key_name           = "unseal_key"
           mount_path         = "transit/"
+          tls_skip_verify = "true"
         }
 
         ui = true
         disable_mlock = true
         cluster_addr = "http://127.0.0.1:8701"
-        cluster_name = "vault-integrated-storage"
+        cluster_name = "beograd"
 # Vault UI
 ui:
   enabled: true
-  serviceType: "LoadBalancer"
+  serviceType: "ClusterIP"
   serviceNodePort: null
   externalPort: 8200

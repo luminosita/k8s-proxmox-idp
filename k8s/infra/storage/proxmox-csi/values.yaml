@@ -2,8 +2,10 @@ storageClass:
   - name: proxmox-csi
     cache: writethrough
     fstype: ext4
-    reclaimPolicy: Retain
+    reclaimPolicy: Delete
     ssd: true
     storage: local-lvm
     mountOptions:
       - noatime
+#FIXME: Change to Retain for live system
+#    reclaimPolicy: Retain

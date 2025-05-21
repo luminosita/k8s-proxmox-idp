@@ -1,0 +1,33 @@
+#installCRDs: true
+crds:
+  enabled: true
+extraArgs:
+  - "--enable-gateway-api"
+
+featureGates: "AdditionalCertificateOutputFormats=true"
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 10m
+    memory: 64Mi
+webhook:
+  extraArgs:
+    - "--feature-gates=AdditionalCertificateOutputFormats=true"
+  resources:
+    limits:
+      cpu: 100m
+      memory: 64Mi
+    requests:
+      cpu: 10m
+      memory: 32Mi
+cainjector:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 10m
+      memory: 64Mi

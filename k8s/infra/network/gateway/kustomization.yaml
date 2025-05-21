@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ns.yaml
+  # - sa-issuer.yaml
+  # - secret-issuer.yaml
+  # - issuer-vault.yaml
+  - gateway-class-cilium.yaml
+  - cert-kundun-wildcard-selfsigned.yaml
+#  - cert-kundun-wildcard-vault.yaml
+  - gw-internal-selfsigned.yaml
