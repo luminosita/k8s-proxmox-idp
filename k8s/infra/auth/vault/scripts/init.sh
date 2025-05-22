@@ -19,10 +19,10 @@ INIT_RESPONSE=$(curl -s \
 EOF
 )
 
-RECOVERY_KEY2=$(echo "$INIT_RESPONSE" | jq -r .recovery_keys_b64[0])
+RECOVERY_KEY2=$(echo "$INIT_RESPONSE" | jq -r .recovery_keys_base64[0])
 VAULT_TOKEN2=$(echo "$INIT_RESPONSE" | jq -r .root_token)
 
-if [ -z RECOVERY_KEY2 ] || [ -z VAULT_TOKEN2 ]; then
+if [ -z "$RECOVERY_KEY2" ] || [ -z "$VAULT_TOKEN2" ]; then
     echo "Unable to initialize Vault instance" \
         "" 1>&1
 
@@ -32,7 +32,7 @@ fi
 echo "enabling Kuberentes authentication method" \
     "" 1>&1
 
-resp=$(curl \
+resp=$(curl -s \
     --header "X-Vault-Token: <YOUR_TOKEN>" \
     --request POST \
     --data @- \
@@ -46,7 +46,7 @@ EOF
 echo "configuring Kubernetes authentication method" \
     "" 1>&1
 
-resp=$(curl \
+resp=$(curl -s \
     --header "X-Vault-Token: ..." \
     --request POST \
     --data @- \
@@ -77,8 +77,8 @@ resp=$(curl -s -X POST \
     },
     "type": "Opaque",
     "stringData": {
-        "unseal_key": "$RECOVERY_KEY2",
-        "root_token": "$VAULT_TOKEN2"
+        "unseal_key": "${RECOVERY_KEY2}",
+        "root_token": "${VAULT_TOKEN2}"
     }
 }
 EOF
