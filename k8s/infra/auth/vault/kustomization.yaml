@@ -12,6 +12,8 @@ resources:
   - ns.yaml
   - rbac.yaml
   - job-init.yaml
+  - http-route.yaml
+  - https-route.yaml
 
 helmCharts:
   - name: vault

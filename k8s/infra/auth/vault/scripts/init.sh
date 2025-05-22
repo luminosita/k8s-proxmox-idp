@@ -29,6 +29,34 @@ if [ -z RECOVERY_KEY2 ] || [ -z VAULT_TOKEN2 ]; then
     exit 1
 fi  
 
+echo "enabling Kuberentes authentication method" \
+    "" 1>&1
+
+resp=$(curl \
+    --header "X-Vault-Token: <YOUR_TOKEN>" \
+    --request POST \
+    --data @- \
+    ${VAULT_ADDR}/v1/sys/auth/kubernetes  <<EOF
+{
+    "type": "kubernetes"
+}
+EOF
+)
+
+echo "configuring Kubernetes authentication method" \
+    "" 1>&1
+
+resp=$(curl \
+    --header "X-Vault-Token: ..." \
+    --request POST \
+    --data @- \
+    ${VAULT_ADDR}/v1/kubernetes/config <<EOF
+{
+    "kubernetes_host": "https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT_HTTPS}"
+}
+EOF
+)
+
 echo "creating Kubernetes Secret (vault-secret)" \
     "" 1>&1
 
