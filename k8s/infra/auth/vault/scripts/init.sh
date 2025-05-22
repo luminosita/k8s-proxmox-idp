@@ -7,7 +7,7 @@ echo "initializing Vault server" \
 
 VAULT_ADDR="http://vault-0.vault-internal:8200"
 
-INIT_RESPONSE=$(curl \
+INIT_RESPONSE=$(curl -s \
     --header "X-Vault-Token: ${VAULT_TOKEN}" \
     --request POST \
     --data @- \
@@ -22,10 +22,20 @@ EOF
 RECOVERY_KEY2=$(echo "$INIT_RESPONSE" | jq -r .recovery_keys_b64[0])
 VAULT_TOKEN2=$(echo "$INIT_RESPONSE" | jq -r .root_token)
 
-API_SERVER="https://$KUBERNETES_PORT_443_TCP_ADDR:$KUBERNETES_SERVICE_PORT_HTTPS"
+if [ -z RECOVERY_KEY2 ] || [ -z VAULT_TOKEN2 ]; then
+    echo "Unable to initialize Vault instance" \
+        "" 1>&1
+
+    exit 1
+fi  
+
+echo "creating Kubernetes Secret (vault-secret)" \
+    "" 1>&1
+
+API_SERVER="https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT_HTTPS"
 SA_TOKEN=/var/run/secrets/kubernetes.io/serviceaccount/token
 
-curl -X POST \
+resp=$(curl -s -X POST \
     -H "Authorization: Bearer $(cat ${SA_TOKEN})" \
     -H "Content-Type: application/json" \
     --data @- \
@@ -44,3 +54,8 @@ curl -X POST \
     }
 }
 EOF
+)
+
+echo "Vault server initialized successfully." \
+    "" 1>&1
+

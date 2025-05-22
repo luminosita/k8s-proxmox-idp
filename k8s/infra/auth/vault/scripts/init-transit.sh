@@ -10,7 +10,7 @@ sleep 15
 
 VAULT_ADDR="http://vault-transit-0.vault-transit-internal:8200"
 
-INIT_RESPONSE=$(curl \
+INIT_RESPONSE=$(curl -s \
     --request POST \
     --data @- \
     ${VAULT_ADDR}/v1/sys/init <<EOF
@@ -24,24 +24,27 @@ EOF
 UNSEAL_KEY=$(echo "$INIT_RESPONSE" | jq -r .keys_base64[0])
 VAULT_TOKEN=$(echo "$INIT_RESPONSE" | jq -r .root_token)
 
-curl --header "X-Vault-Token: ${VAULT_TOKEN}" \
+resp=$(curl -s --header "X-Vault-Token: ${VAULT_TOKEN}" \
     --request POST \
     --data "{\"key\":\"${UNSEAL_KEY}\"}" \
-    ${VAULT_ADDR}/v1/sys/unseal
+    ${VAULT_ADDR}/v1/sys/unseal)
 
-curl --header "X-Vault-Token: ${VAULT_TOKEN}" \
+resp=$(curl -s --header "X-Vault-Token: ${VAULT_TOKEN}" \
     --request POST \
     --data "{\"type\":\"transit\"}" \
-    ${VAULT_ADDR}/v1/sys/mounts/transit
+    ${VAULT_ADDR}/v1/sys/mounts/transit)
 
-curl --header "X-Vault-Token: ${VAULT_TOKEN}" \
+resp=$(curl -s --header "X-Vault-Token: ${VAULT_TOKEN}" \
     --request POST \
-    $VAULT_ADDR/v1/transit/keys/unseal_key
+    $VAULT_ADDR/v1/transit/keys/unseal_key)
 
-API_SERVER="https://$KUBERNETES_PORT_443_TCP_ADDR:$KUBERNETES_SERVICE_PORT_HTTPS"
+echo "creating Kubernetes Secret (vault-transit-secret)" \
+    "" 1>&1
+
+API_SERVER="https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT_HTTPS"
 SA_TOKEN=/var/run/secrets/kubernetes.io/serviceaccount/token
 
-curl -X POST \
+resp=$(curl -s -X POST \
     -H "Authorization: Bearer $(cat ${SA_TOKEN})" \
     -H "Content-Type: application/json" \
     --data @- \
@@ -60,3 +63,7 @@ curl -X POST \
     }
 }
 EOF
+)
+
+echo "Vault server initialized successfully." \
+    "" 1>&1
