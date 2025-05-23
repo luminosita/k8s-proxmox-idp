@@ -17,6 +17,15 @@ spec:
       storageClassName: proxmox-csi
       accessModes:
         - ReadWriteOnce
+
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: admin-credentials
+
+  # bootstrap:
+  #   initdb:
+  #     database: ""
+
   # bootstrap:
   #   initdb:
   #     database: wikijs

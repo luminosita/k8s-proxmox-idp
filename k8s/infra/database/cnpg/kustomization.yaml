@@ -4,6 +4,8 @@ namespace: cnpg-system
 
 resources:
   - ns.yaml
+  - vault-auth-role.yaml
+  - secret-credentials.yaml
   - cnpg-single.yaml
 
 helmCharts:

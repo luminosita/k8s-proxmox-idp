@@ -12,12 +12,13 @@ EOF
 
 vault write auth/kubernetes/role/internal-app \
     bound_service_account_names=default \
-    bound_service_account_namespaces="minio,app" \
+    bound_service_account_namespaces="minio,app,cnpg-system" \
     policies=internal-app \
     audience=vault \
     ttl=24h
 
 vault secrets enable -path=internal kv-v2
+vault kv put internal/cnpg/creds password="lazalaza"
 vault kv put internal/minio/creds username="laza" password="lazalaza"
 vault kv put internal/test/creds username="static-user" password="static-password"
 
