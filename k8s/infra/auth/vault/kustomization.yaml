@@ -28,4 +28,10 @@ helmCharts:
     releaseName: vault
     namespace: vault
     valuesFile: values.yaml
+  - name: vault-secrets-operator 
+    repo: https://helm.releases.hashicorp.com
+    version: v0.10.0
+    releaseName: vault-secrets-operator 
+    namespace: vault 
+    valuesFile: vault-operator-values.yaml
 

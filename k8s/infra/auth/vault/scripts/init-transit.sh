@@ -2,7 +2,7 @@
 
 set -e
 
-echo "initializing transit Vault server and capturing the recovery key and root token" \
+echo "initializing transit Vault server and capturing the unseal key and root token" \
     "" 1>&1
 
 #Waiting on vault-transit pod to start
@@ -29,14 +29,20 @@ resp=$(curl -s --header "X-Vault-Token: ${VAULT_TOKEN}" \
     --data "{\"key\":\"${UNSEAL_KEY}\"}" \
     ${VAULT_ADDR}/v1/sys/unseal)
 
+echo $resp | jq '.'
+
 resp=$(curl -s --header "X-Vault-Token: ${VAULT_TOKEN}" \
     --request POST \
     --data "{\"type\":\"transit\"}" \
     ${VAULT_ADDR}/v1/sys/mounts/transit)
 
+echo $resp | jq '.'
+
 resp=$(curl -s --header "X-Vault-Token: ${VAULT_TOKEN}" \
     --request POST \
     $VAULT_ADDR/v1/transit/keys/unseal_key)
+
+echo $resp | jq '.'
 
 echo "creating Kubernetes Secret (vault-transit-secret)" \
     "" 1>&1

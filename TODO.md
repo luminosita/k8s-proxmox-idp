@@ -3,7 +3,7 @@
 - [ ] Talos VM UEFI bootloader
 - [ ] Talos VM settings (OPNSense guide, homenetworkguy) 
 - [ ] Bash Terminal improvements (DevOps Toolkit)
-- [ ] Use a pre-upgrade / pre-install Helm hook to launch
+- [ ] Use a pre-upgrade / pre-install Argo hook to launch
 - [x] Proxmox Network Topography
 - [x] Cloudflare Terraform
 - [ ] Taskfile (DevOps Toolkit)
@@ -44,24 +44,33 @@
 ## Databases
 
 - [ ] Vault
-    - [ ] Transit
-        - [ ] Unseal to Secret (init container)
-        - [ ] Create Unseal Key transit mount
-    - [ ] Vault Cluster
-        - [ ] Wait for the transit credentials secret to become available (argo presync hook ?)
-        - [ ] Auto unseal with transit Vault
-- [ ] Vault credentials injection
+    - [x] Transit
+        - [x] Unseal to Secret (init container)
+        - [x] Create Unseal Key transit mount
+    - [x] Vault Cluster
+        - [x] Wait for the transit credentials secret to become available (argo presync hook ?)
+        - [x] Auto unseal with transit Vault
+    - [x] Vault credentials injection
+    - [ ] Vault Kubernetes config from init job script to crossplane
+    - [ ] Vault static secrets operator
+        - [x] Configuration
+        - [ ] Crossplane
+    - [ ] Vault dynamic secrets
+        - [ ] Crossplane
+        - [ ] Vault Secrets Operator client cache config (https://developer.hashicorp.com/vault/tutorials/kubernetes/vault-secrets-operator#transit-encryption)
 - [ ] Minio
     - [ ] StatefulSet with PVC Template
     - [ ] Crossplane Bucket creation
-    - [ ] Admin credentials
+    - [x] Admin credentials
 - [ ] PSQL (DevOps Toolkit)
+    - [ ] Superuser static credentials
     - [ ] Atlas Operator (DevOps Toolkit)
     - [ ] Crossplane DB creation
     - [ ] DB credentials (DevOps Toolkit - crossplane tutorial)
 - [ ] OpenLDAP (https://www.ibm.com/docs/en/rpa/23.0.x?topic=ldap-installing-configuring-openldap)
     - [ ] slapd.d with Vault Template Inject (credentials)
-- [ ] Redis 
+- [ ] Redis
+    - [ ] Credentials
 
 ## API
 

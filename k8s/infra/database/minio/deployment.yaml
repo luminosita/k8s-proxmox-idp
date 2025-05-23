@@ -14,15 +14,6 @@ spec:
       namespace: minio
       labels:
         app: minio
-      annotations:
-        vault.hashicorp.com/agent-inject: 'true'
-        vault.hashicorp.com/role: 'minio-app'
-        vault.hashicorp.com/agent-inject-secret-config.sh: 'internal/data/minio/creds'
-        vault.hashicorp.com/agent-inject-template-config.sh: |
-            {{- with secret "internal/data/minio/creds" -}}
-            export MINIO_ROOT_USER={{ .Data.data.username }}
-            export MINIO_ROOT_PASSWORD={{ .Data.data.password }}
-            {{- end -}}    
     spec:
       containers:
         - name: minio
@@ -32,8 +23,18 @@ spec:
             - /bin/bash
             - -c
           args: 
-            - source /vault/secrets/config.sh && 
-                minio server /data --console-address :9001
+            - minio server /data --console-address :9001
+          env:
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: admin-credentials
+                  key: username
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: admin-credentials
+                  key: password
           resources:
             limits:
               cpu: "1"

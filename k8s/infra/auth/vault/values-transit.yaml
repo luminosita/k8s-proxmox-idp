@@ -10,7 +10,8 @@ global:
     limits:
       memory: 256Mi
       cpu: 250m
-
+injector:
+  enabled: false
 server:
   # Use the Enterprise Image
   image:

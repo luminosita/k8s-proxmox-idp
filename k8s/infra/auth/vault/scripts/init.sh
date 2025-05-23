@@ -27,13 +27,15 @@ if [ -z "$RECOVERY_KEY2" ] || [ -z "$VAULT_TOKEN2" ]; then
         "" 1>&1
 
     exit 1
-fi  
+fi
 
 echo "enabling Kuberentes authentication method" \
     "" 1>&1
 
+sleep 5
+
 resp=$(curl -s \
-    --header "X-Vault-Token: <YOUR_TOKEN>" \
+    --header "X-Vault-Token: ${VAULT_TOKEN2}" \
     --request POST \
     --data @- \
     ${VAULT_ADDR}/v1/sys/auth/kubernetes  <<EOF
@@ -43,19 +45,35 @@ resp=$(curl -s \
 EOF
 )
 
+if [ ! -z "$resp" ]; then
+    echo "Vault error response($resp)" \
+        "" 1>&1
+
+    exit 1
+fi
+
 echo "configuring Kubernetes authentication method" \
     "" 1>&1
 
+sleep 1
+
 resp=$(curl -s \
-    --header "X-Vault-Token: ..." \
+    --header "X-Vault-Token: ${VAULT_TOKEN2}" \
     --request POST \
     --data @- \
-    ${VAULT_ADDR}/v1/kubernetes/config <<EOF
+    ${VAULT_ADDR}/v1/auth/kubernetes/config <<EOF
 {
     "kubernetes_host": "https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT_HTTPS}"
 }
 EOF
 )
+
+if [ ! -z "$resp" ]; then
+    echo "Vault error response($resp)" \
+        "" 1>&1
+
+    exit 1
+fi
 
 echo "creating Kubernetes Secret (vault-secret)" \
     "" 1>&1
@@ -77,7 +95,7 @@ resp=$(curl -s -X POST \
     },
     "type": "Opaque",
     "stringData": {
-        "unseal_key": "${RECOVERY_KEY2}",
+        "recovery_key": "${RECOVERY_KEY2}",
         "root_token": "${VAULT_TOKEN2}"
     }
 }

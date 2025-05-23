@@ -3,6 +3,8 @@ kind: Kustomization
 
 resources:
   - ns.yaml
+  - vault-auth-role.yaml
+  - secret-credentials.yaml
   - pvc.yaml
   - svc.yaml
   - deployment.yaml
