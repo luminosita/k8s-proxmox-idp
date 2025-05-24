@@ -14,7 +14,6 @@ vault write auth/kubernetes/role/internal-app \
     bound_service_account_names=default \
     bound_service_account_namespaces="minio,app,cnpg-system" \
     policies=internal-app \
-    audience=vault \
     ttl=24h
 
 vault secrets enable -path=internal kv-v2

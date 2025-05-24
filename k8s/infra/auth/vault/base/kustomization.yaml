@@ -33,5 +33,5 @@ helmCharts:
     version: v0.10.0
     releaseName: vault-secrets-operator 
     namespace: vault 
-    valuesFile: vault-operator-values.yaml
+    valuesFile: values-vault-operator.yaml
 

@@ -1,0 +1,94 @@
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: kubernetes
+  labels:
+    provider: vault
+spec:
+  compositeTypeRef:
+    apiVersion: vault.kundun.dev/v1alpha1
+    kind: Kubernetes
+  mode: Pipeline
+  pipeline:
+  - functionRef:
+      name: function-patch-and-transform
+    step: patch-and-transform
+    input:
+      apiVersion: pt.fn.crossplane.io/v1beta1
+      kind: Resources
+      patchSets:
+      - name: metadata
+        patches:
+        - type: FromCompositeFieldPath
+          fromFieldPath: metadata.annotations
+          toFieldPath: metadata.annotations
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.id
+          toFieldPath: metadata.name
+      resources:
+      - name: mount
+        base:
+          apiVersion: auth.vault.upbound.io/v1alpha1
+          kind: Backend
+          spec:
+            forProvider:
+              path: kubernetes
+              type: kubernetes
+        patches:
+        - type: PatchSet
+          patchSetName: metadata
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.atProvider.accessor
+          toFieldPath: status.mountAccessor
+      - name: config
+        base:
+          apiVersion: kubernetes.vault.upbound.io/v1alpha1
+          kind: AuthBackendConfig
+        patches:
+        - type: PatchSet
+          patchSetName: metadata
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.id
+          toFieldPath: spec.forProvider.backendRef.name
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.kubernetesHost
+          toFieldPath: spec.forProvider.kubernetesHost
+      - name: policy
+        base:
+          apiVersion: vault.vault.upbound.io/v1alpha1
+          kind: Policy
+        patches:
+        - type: PatchSet
+          patchSetName: metadata
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.policy.name
+          toFieldPath: spec.forProvider.name
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.policy.paths
+          toFieldPath: spec.forProvider.policy
+      - name: role
+        base:
+          apiVersion: kubernetes.vault.upbound.io/v1alpha1
+          kind: AuthBackendRole
+        patches:
+        - type: PatchSet
+          patchSetName: metadata
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.id
+          toFieldPath: spec.forProvider.backendRef.name
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.role.name
+          toFieldPath: spec.forProvider.roleName
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.role.boundServiceAccountNames
+          toFieldPath: spec.forProvider.boundServiceAccountNames
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.role.boundServiceAccountNamespaces
+          toFieldPath: spec.forProvider.boundServiceAccountNamespaces
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.role.tokenPolicies
+          toFieldPath: spec.forProvider.tokenPolicies
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.role.tokenTtl
+          toFieldPath: spec.forProvider.tokenTtl

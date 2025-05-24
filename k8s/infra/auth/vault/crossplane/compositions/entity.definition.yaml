@@ -2,9 +2,9 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: entities.kundun.dev
+  name: entities.vault.kundun.dev
 spec:
-  group: kundun.dev
+  group: vault.kundun.dev
   names:
     kind: Entity
     plural: entities

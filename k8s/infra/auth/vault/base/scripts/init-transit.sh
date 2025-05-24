@@ -64,12 +64,14 @@ resp=$(curl -s -X POST \
     },
     "type": "Opaque",
     "stringData": {
-        "unseal_key": "$UNSEAL_KEY",
-        "root_token": "$VAULT_TOKEN"
+        "unseal_key": "${UNSEAL_KEY}",
+        "root_token": "${VAULT_TOKEN}"
     }
 }
 EOF
 )
+
+echo $resp | jq '.'
 
 echo "Vault server initialized successfully." \
     "" 1>&1

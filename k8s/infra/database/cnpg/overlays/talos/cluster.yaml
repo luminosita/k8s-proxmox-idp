@@ -1,0 +1,12 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cnpg-single
+  namespace: cnpg
+spec:
+  storage:
+    pvcTemplate:
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: proxmox-csi
+    size: 1G

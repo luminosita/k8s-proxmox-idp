@@ -3,7 +3,7 @@ apiVersion: identity.vault.upbound.io/v1alpha1
 kind: OidcScope
 metadata:
   name: email
-  namespace: test
+  namespace: vault
 spec:
   forProvider:
     name: email
@@ -16,7 +16,7 @@ apiVersion: identity.vault.upbound.io/v1alpha1
 kind: OidcScope
 metadata:
   name: groups
-  namespace: test
+  namespace: vault
 spec:
   forProvider:
     name: groups
@@ -29,7 +29,7 @@ apiVersion: identity.vault.upbound.io/v1alpha1
 kind: OidcScope
 metadata:
   name: user
-  namespace: test
+  namespace: vault
 spec:
   forProvider:
     name: user
@@ -43,16 +43,15 @@ spec:
           }
       }
 ---
-apiVersion: kundun.dev/v1alpha1
+apiVersion: vault.kundun.dev/v1alpha1
 kind: OIDCClaim
 metadata:
-  name: my-oidc
-  namespace: test
+  name: idp
+  namespace: vault
 spec:
   compositionSelector:
     matchLabels:
       provider: vault
-  id: laza
+  id: idp-oidc
   redirectUris: [ "https://auth.contoso.com:8443/oauth2/laza/authorization-code-callback" ]
   scopesSupported: [ "email", "user", "groups" ]
-  groupName: engineering

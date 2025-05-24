@@ -7,7 +7,7 @@ metadata:
     provider: vault
 spec:
   compositeTypeRef:
-    apiVersion: kundun.dev/v1alpha1
+    apiVersion: vault.kundun.dev/v1alpha1
     kind: PKI
   mode: Pipeline
   pipeline:
@@ -88,14 +88,15 @@ spec:
           kind: SecretBackendRootCert
           spec:
             forProvider:
-              backendRef: 
-                name: pki
               type: internal
               issuerName: ca-issuer
               keyBits: 4096
         patches:
         - type: PatchSet
           patchSetName: ca-metadata
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.id
+          toFieldPath: spec.forProvider.backendRef.name
         - type: PatchSet
           patchSetName: cn-root
         - type: PatchSet
@@ -110,13 +111,14 @@ spec:
           spec:
             forProvider:
               name: ca-role
-              backendRef: 
-                name: pki
               allowAnyName: true
               noStore: false
         patches:
         - type: PatchSet
           patchSetName: ca-metadata
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.id
+          toFieldPath: spec.forProvider.backendRef.name
       - name: int-mount
         base:
           apiVersion: vault.vault.upbound.io/v1alpha1
@@ -134,14 +136,20 @@ spec:
           kind: SecretBackendIntermediateCertRequest
           spec:
             forProvider:
-              backendRef: 
-                name: pki-int
               type: internal
               format: pem_bundle
               keyBits: 4096
         patches:
         - type: PatchSet
           patchSetName: int-metadata
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.id
+          toFieldPath: spec.forProvider.backendRef.name
+          transforms:
+          - type: string
+            string:
+              fmt: "%s-int"
+              type: Format
         - type: PatchSet
           patchSetName: cn-int
         - type: PatchSet
@@ -174,15 +182,25 @@ spec:
         base: 
           apiVersion: pki.vault.upbound.io/v1alpha1
           kind: SecretBackendIntermediateSetSigned
-          spec:
-            forProvider:
-              backendRef: 
-                name: pki-int
-              certificateRef:
-                name: pki-int
         patches:
         - type: PatchSet
           patchSetName: int-metadata
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.id
+          toFieldPath: spec.forProvider.backendRef.name
+          transforms:
+          - type: string
+            string:
+              fmt: "%s-int"
+              type: Format
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.id
+          toFieldPath: spec.forProvider.certificateRef.name
+          transforms:
+          - type: string
+            string:
+              fmt: "%s-int"
+              type: Format
       - name: int-role
         base: 
           apiVersion: pki.vault.upbound.io/v1alpha1
@@ -190,14 +208,21 @@ spec:
           spec:
             forProvider:
               name: int-role
-              backendRef: 
-                name: pki-int
               allowAnyName: true
               noStore: false
         patches:
         - type: PatchSet
           patchSetName: int-metadata
-        - fromFieldPath: spec.ouPrefix
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.id
+          toFieldPath: spec.forProvider.backendRef.name
+          transforms:
+          - type: string
+            string:
+              fmt: "%s-int"
+              type: Format
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.ouPrefix
           toFieldPath: spec.forProvider.ou
           transforms:
           - type: string
@@ -208,7 +233,8 @@ spec:
             convert:
               toType: array
               format: json    
-        - fromFieldPath: spec.organization
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.organization
           toFieldPath: spec.forProvider.organization
           transforms:
           - type: string
@@ -219,7 +245,8 @@ spec:
             convert:
               toType: array
               format: json    
-        - fromFieldPath: spec.locality
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.locality
           toFieldPath: spec.forProvider.locality
           transforms:
           - type: string
@@ -230,7 +257,8 @@ spec:
             convert:
               toType: array
               format: json    
-        - fromFieldPath: spec.province
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.province
           toFieldPath: spec.forProvider.province
           transforms:
           - type: string
@@ -241,7 +269,8 @@ spec:
             convert:
               toType: array
               format: json    
-        - fromFieldPath: spec.country
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.country
           toFieldPath: spec.forProvider.country
           transforms:
           - type: string

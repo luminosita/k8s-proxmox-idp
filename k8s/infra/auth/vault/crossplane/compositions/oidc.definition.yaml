@@ -2,9 +2,9 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: oidcs.kundun.dev
+  name: oidcs.vault.kundun.dev
 spec:
-  group: kundun.dev
+  group: vault.kundun.dev
   names:
     kind: OIDC
     plural: oidcs
@@ -35,6 +35,9 @@ spec:
                 items:
                   type: string
                 minItems: 1
-              groupName:
-                type: string
             required: [ id ]
+          status:
+            type: object
+            properties:
+              clientId:
+                type: string

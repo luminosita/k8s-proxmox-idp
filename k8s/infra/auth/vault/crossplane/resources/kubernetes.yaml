@@ -1,0 +1,24 @@
+apiVersion: vault.kundun.dev/v1alpha1
+kind: KubernetesClaim
+metadata:
+  name: idp
+  namespace: vault
+spec:
+  compositionSelector:
+    matchLabels:
+      provider: vault
+  id: idp-kubernetes
+  policy: 
+    name: internal-app
+    paths: |
+      path "internal/data/*" {
+        capabilities = ["read"]
+      }
+  kubernetesHost: https://kubernetes.default.svc:443
+  role:
+    name: internal-app
+    boundServiceAccountNames: [ "default" ]
+    boundServiceAccountNamespaces: [ "minio", "app", "cnpg-system" ] 
+    tokenPolicies: [ "internal-app" ]
+    tokenTtl: 86400
+  

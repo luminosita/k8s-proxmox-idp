@@ -2,7 +2,7 @@ apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultAuth
 metadata:
   name: static-auth
-  namespace: cnpg-system
+  namespace: cnpg
 spec:
   method: kubernetes
   mount: kubernetes

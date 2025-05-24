@@ -1,0 +1,8 @@
+apiVersion: vault.kundun.dev/v1alpha1
+kind: SSHClaim
+metadata:
+  name: idp
+  namespace: vault
+spec:
+  id: idp-ssh
+  defaultUser: laza

@@ -10,10 +10,11 @@ output
 *.tfvars.json
 *.lock.hcl
 
+.task/
+
 output/
 **/tmp
 **/config/certificate
-**/provider-config.yaml
 **/charts
 proxmox.auto.tfvars
 boundary.auto.tfvars

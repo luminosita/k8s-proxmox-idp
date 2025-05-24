@@ -1,0 +1,84 @@
+version: '3'
+
+dotenv: ['.env', '{{.ENV}}/.env', '{{.HOME}}/.env']
+
+interval: 1s
+
+tasks:
+  k3s-install:
+    cmds:
+      - ssh milosh@k3s.local 'bash k3s-install.sh'
+      - mkdir -p tmp
+      - scp milosh@k3s.local:./.kube/config tmp/kubeconfig.tmp
+      - bash /usr/local/bin/patch-kubeconfig.sh tmp/kubeconfig.tmp
+      - rm -f tmp/kubeconfig.tmp
+
+  k3s-uninstall:
+    cmds:
+      - ssh milosh@k3s.local '/usr/local/bin/k3s-uninstall.sh'
+
+  base:
+    internal: true
+    cmds:
+      - kubectl config use-context $KUBECTL_CONTEXT
+
+  crossplane:*:
+    vars:
+      ACTION: "{{index .MATCH 0}}"
+    cmds:
+      - task: base
+      - kustomize build k8s/infra/controllers/crossplane --enable-helm | kubectl {{.ACTION}} -f -
+
+  vault:*:
+    vars:
+      ACTION: "{{index .MATCH 0}}"
+    cmds:
+      - task: base
+      - kustomize build k8s/infra/auth/vault/overlays/$OVERLAY --enable-helm | kubectl {{.ACTION}} -f -
+
+  vault-crossplane-providers:*:
+    vars:
+      ACTION: "{{index .MATCH 0}}"
+    cmds:
+      - task: base
+      - kubectl {{.ACTION}} -f k8s/infra/auth/vault/crossplane/providers
+
+  vault-crossplane:*:
+#    ignore_error: true
+    vars:
+      ACTION: "{{index .MATCH 0}}"
+    cmds:
+      - task: base
+      - kubectl {{.ACTION}} -f k8s/infra/auth/vault/crossplane/config
+      - kubectl {{.ACTION}} -f k8s/infra/auth/vault/crossplane/compositions
+      - kubectl {{.ACTION}} -f k8s/infra/auth/vault/crossplane/resources
+
+  cnpg-system:*:
+    vars:
+      ACTION: "{{index .MATCH 0}}"
+      OPTIONS:
+        map: { apply: "--server-side", delete: ""}
+    cmds:
+      - task: base
+      - kustomize build k8s/infra/controllers/cnpg-system --enable-helm | kubectl {{.ACTION}} {{index .OPTIONS .ACTION}} -f -
+
+  databases:*:
+    vars:
+      ACTION: "{{index .MATCH 0}}"
+    cmds:
+      - task: base
+      - kustomize build k8s/infra/database/cnpg/overlays/$OVERLAY | kubectl {{.ACTION}} -f -
+      - kustomize build k8s/infra/database/minio/overlays/$OVERLAY | kubectl {{.ACTION}} -f -
+
+  build-crossplane:*:
+    watch: true
+#    ignore_error: true
+    vars:
+      RES: "{{index .MATCH 0}}"
+    sources:
+      - 'k8s/infra/auth/vault/crossplane/compositions/*.yaml'
+      - 'k8s/infra/auth/vault/crossplane/resources/{{.RES}}.yaml'
+    cmds:
+      - kubectl delete -f k8s/infra/auth/vault/crossplane/resources/{{.RES}}.yaml
+      - kubectl apply -f k8s/infra/auth/vault/crossplane/compositions
+      - kubectl apply -f k8s/infra/auth/vault/crossplane/resources/{{.RES}}.yaml

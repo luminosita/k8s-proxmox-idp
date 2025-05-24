@@ -29,51 +29,51 @@ if [ -z "$RECOVERY_KEY2" ] || [ -z "$VAULT_TOKEN2" ]; then
     exit 1
 fi
 
-echo "enabling Kuberentes authentication method" \
-    "" 1>&1
+# echo "enabling Kuberentes authentication method" \
+#     "" 1>&1
 
-sleep 5
+# sleep 5
 
-resp=$(curl -s \
-    --header "X-Vault-Token: ${VAULT_TOKEN2}" \
-    --request POST \
-    --data @- \
-    ${VAULT_ADDR}/v1/sys/auth/kubernetes  <<EOF
-{
-    "type": "kubernetes"
-}
-EOF
-)
+# resp=$(curl -s \
+#     --header "X-Vault-Token: ${VAULT_TOKEN2}" \
+#     --request POST \
+#     --data @- \
+#     ${VAULT_ADDR}/v1/sys/auth/kubernetes  <<EOF
+# {
+#     "type": "kubernetes"
+# }
+# EOF
+# )
 
-if [ ! -z "$resp" ]; then
-    echo "Vault error response($resp)" \
-        "" 1>&1
+# if [ ! -z "$resp" ]; then
+#     echo "Vault error response($resp)" \
+#         "" 1>&1
 
-    exit 1
-fi
+#     exit 1
+# fi
 
-echo "configuring Kubernetes authentication method" \
-    "" 1>&1
+# echo "configuring Kubernetes authentication method" \
+#     "" 1>&1
 
-sleep 1
+# sleep 1
 
-resp=$(curl -s \
-    --header "X-Vault-Token: ${VAULT_TOKEN2}" \
-    --request POST \
-    --data @- \
-    ${VAULT_ADDR}/v1/auth/kubernetes/config <<EOF
-{
-    "kubernetes_host": "https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT_HTTPS}"
-}
-EOF
-)
+# resp=$(curl -s \
+#     --header "X-Vault-Token: ${VAULT_TOKEN2}" \
+#     --request POST \
+#     --data @- \
+#     ${VAULT_ADDR}/v1/auth/kubernetes/config <<EOF
+# {
+#     "kubernetes_host": "https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT_HTTPS}"
+# }
+# EOF
+# )
 
-if [ ! -z "$resp" ]; then
-    echo "Vault error response($resp)" \
-        "" 1>&1
+# if [ ! -z "$resp" ]; then
+#     echo "Vault error response($resp)" \
+#         "" 1>&1
 
-    exit 1
-fi
+#     exit 1
+# fi
 
 echo "creating Kubernetes Secret (vault-secret)" \
     "" 1>&1
@@ -96,7 +96,8 @@ resp=$(curl -s -X POST \
     "type": "Opaque",
     "stringData": {
         "recovery_key": "${RECOVERY_KEY2}",
-        "root_token": "${VAULT_TOKEN2}"
+        "root_token": "${VAULT_TOKEN2}",
+        "credentials": "{\"token\": \"${VAULT_TOKEN2}\"}"
     }
 }
 EOF

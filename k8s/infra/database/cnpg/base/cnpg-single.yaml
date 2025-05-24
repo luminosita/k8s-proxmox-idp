@@ -1,0 +1,46 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cnpg-single
+  namespace: cnpg
+spec:
+  instances: 1
+  affinity:
+    nodeSelector:
+      topology.kubernetes.io/zone: noa
+  managed:
+    services:
+      disabledDefaultServices: ["ro", "r"]
+  storage:
+    size: 1G
+    pvcTemplate:
+      storageClassName: proxmox-csi
+      accessModes:
+        - ReadWriteOnce
+
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: admin-credentials
+
+  bootstrap:
+    initdb:
+      database: postgres  # Use the default 'postgres' database instead of 'app'
+      owner: postgres     # Default owner  # bootstrap:
+      secret:
+        name: admin-credentials
+  #   initdb:
+  #     database: wikijs
+  #     owner: wikijs
+  #     secret:
+  #       name: single-wikijs-app
+
+#    /controller/manager                                                                                                                                                                                          │
+# │       instance                                                                                                                                                                                                     │
+# │       init                                                                                                                                                                                                         │
+# │       --initdb-flags                                                                                                                                                                                               │
+# │       --encoding=UTF8 --lc-collate=C --lc-ctype=C                                                                                                                                                                  │
+# │       --app-db-name                                                                                                                                                                                                │
+# │       app                                                                                                                                                                                                          │
+# │       --app-user                                                                                                                                                                                                   │
+# │       app                                                                                                                                                                                                          │
+# │       --log-level=info

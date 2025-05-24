@@ -13,10 +13,10 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: curl
-          image: "weprovide/alpine-curl-jq:3.12"
-          command: [sh, -c]
+          image: "dwdraju/alpine-curl-jq:latest"
+          command: [/bin/bash, -c]
           args: 
-            - sh /root/scripts/init-transit.sh
+            - bash /root/scripts/init-transit.sh
           env:
             - name: NAMESPACE
               valueFrom:
@@ -47,10 +47,10 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: curl
-          image: "weprovide/alpine-curl-jq:3.12"
-          command: [sh, -c]
-          args: 
-            - sh /root/scripts/init.sh
+          image: "dwdraju/alpine-curl-jq:latest"
+          command: [/bin/bash, -c]
+          args:
+            - bash /root/scripts/init.sh
           env:
             - name: NAMESPACE
               valueFrom:

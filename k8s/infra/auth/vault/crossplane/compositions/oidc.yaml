@@ -7,7 +7,7 @@ metadata:
     provider: vault
 spec:
   compositeTypeRef:
-    apiVersion: kundun.dev/v1alpha1
+    apiVersion: vault.kundun.dev/v1alpha1
     kind: OIDC
   mode: Pipeline
   pipeline:
@@ -20,36 +20,13 @@ spec:
       patchSets:
       - name: metadata
         patches:
-        - fromFieldPath: metadata.annotations
+        - type: FromCompositeFieldPath
+          fromFieldPath: metadata.annotations
           toFieldPath: metadata.annotations
-        - fromFieldPath: spec.id
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.id
           toFieldPath: metadata.name
       resources:
-      - name: group
-        base:
-          apiVersion: identity.vault.upbound.io/v1alpha1
-          kind: Group
-          metadata:
-            annotations: 
-              crossplane.io/external-name: 887dccfb-580a-af42-e8d3-9a7a78919e33
-          spec:
-            managementPolicies: ["Observe"]
-            forProvider:
-      - name: assignment
-        base:
-          apiVersion: identity.vault.upbound.io/v1alpha1
-          kind: OidcAssignment
-        patches:
-        - type: PatchSet
-          patchSetName: metadata
-        - fromFieldPath: spec.id
-          toFieldPath: spec.forProvider.name
-        # - type: FromCompositeFieldPath
-        #   fromFieldPath: spec.groupIds
-        #   toFieldPath: spec.forProvider.groupIds
-        # - type: FromCompositeFieldPath
-        #   fromFieldPath: spec.entityIds
-        #   toFieldPath: spec.forProvider.entityIds
       - name: key
         base:
           apiVersion: identity.vault.upbound.io/v1alpha1
@@ -63,7 +40,8 @@ spec:
         patches:
         - type: PatchSet
           patchSetName: metadata
-        - fromFieldPath: spec.id
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.id
           toFieldPath: spec.forProvider.name
       - name: client
         base:
@@ -73,15 +51,41 @@ spec:
             forProvider:
               idTokenTtl: 1800
               accessTokenTtl: 3600
+              assignments: [ "allow_all" ]
         patches:
         - type: PatchSet
           patchSetName: metadata
-        - fromFieldPath: spec.id
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.id
           toFieldPath: spec.forProvider.name
-        - fromFieldPath: spec.id
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.id
           toFieldPath: spec.forProvider.key
-        - fromFieldPath: spec.id
-          toFieldPath: spec.forProvider.assignments
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.redirectUris
+          toFieldPath: spec.forProvider.redirectUris
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.redirectUris
+          toFieldPath: spec.forProvider.redirectUris
+        - type: ToCompositeFieldPath
+          fromFieldPath: status.atProvider.clientId
+          toFieldPath: status.clientId
+      - name: provider
+        base:
+          apiVersion: identity.vault.upbound.io/v1alpha1
+          kind: OidcProvider
+        patches:
+        - type: PatchSet
+          patchSetName: metadata
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.id
+          toFieldPath: spec.forProvider.name
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.scopesSupported
+          toFieldPath: spec.forProvider.scopesSupported
+        - type: FromCompositeFieldPath
+          fromFieldPath: status.clientId
+          toFieldPath: spec.forProvider.allowedClientIds
           transforms:
             - type: string
               string:
@@ -91,17 +95,3 @@ spec:
               convert:
                 toType: array
                 format: json
-        - fromFieldPath: spec.redirectUris
-          toFieldPath: spec.forProvider.redirectUris
-      - name: provider
-        base:
-          apiVersion: identity.vault.upbound.io/v1alpha1
-          kind: OidcProvider
-        patches:
-        - type: PatchSet
-          patchSetName: metadata
-        - fromFieldPath: spec.id
-          toFieldPath: spec.forProvider.name
-        - fromFieldPath: spec.scopesSupported
-          toFieldPath: spec.forProvider.scopesSupported
-
