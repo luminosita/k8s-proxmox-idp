@@ -9,10 +9,10 @@ talos_cluster_config = {
   # The version of talos features to use in generated machine configuration. Generally the same as image version.
   # See https://github.com/siderolabs/terraform-provider-talos/blob/main/docs/data-sources/machine_configuration.md
   region              = "beograd"
-  kubernetes_version  = "v1.33.1" 
-  gateway_api_version = "v1.2.1"
+  kubernetes_version  = "v1.32.1" # renovate: github-releases=kubernetes/kubernetes
+  gateway_api_version = "v1.2.1" # renovate: github-releases=kubernetes-sigs/gateway-api
   cilium = {
-    version                 = "v1.17.4"
+    version                 = "v1.17.1" # renovate: github-releases=cilium/cilium
     values_file_path        = "../../k8s/infra/network/cilium/values.yaml"
   }
   # kubelet    = <<-EOT
