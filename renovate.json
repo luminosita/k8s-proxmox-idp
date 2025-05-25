@@ -26,27 +26,6 @@
   ],
   "packageRules": [
     {
-      "groupName": "Media containers",
-      "matchPackageNames": [
-        "ghcr.io/jellyfin/**",
-        "ghcr.io/home-operations/plex**",
-        "ghcr.io/home-operations/**arr**"
-      ]
-    },
-    {
-      "groupName": "NetBird",
-      "matchPackageNames": [
-        "**/netbirdio/**",
-        "netbirdio/**"
-      ]
-    },
-    {
-      "groupName": "Intel Device Plugins",
-      "matchPackageNames": [
-        "/intel-device-plugins/"
-      ]
-    },
-    {
       "groupName": "Cilium",
       "matchPackageNames": [
         "/cilium/"
