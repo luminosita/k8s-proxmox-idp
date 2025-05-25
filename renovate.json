@@ -9,6 +9,11 @@
       "(^|/)kustomization\\.ya?ml(\\.j2)?$"
     ]
   },
+  "helm": {
+    "fileMatch": [
+      "(^|/)values[\\w+\\-]*\\.ya?ml$"
+    ]
+  },
   "customManagers": [
     {
       "customType": "regex",
