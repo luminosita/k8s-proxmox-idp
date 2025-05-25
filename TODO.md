@@ -8,22 +8,27 @@
 - [ ] Bash Terminal improvements (DevOps Toolkit)
 - [ ] App Management (DevOps Toolkit)
 - [ ] IDP Playlist (DevOps Toolkit)
-- [ ] Claude Code 
 - [ ] Nix Shell
 - [X] DNS resolving from internel K8s network to outside (NFS mount with fixed IP)
 - [ ] Renovate
 - [ ] Remark42
 - [ ] DNS records: internal (VPN, Cloudflare) and external
 - [ ] Finish README
+- [ ] KCL               
+- [ ] Chainsaw          
 
 ## Renovate
-- [ ] Helm values files other than values.yaml (values-xxx.yaml)
-- [ ] Terraform
-- [ ] Talos (bootstrap/inline manifests)
-- [ ] Kubernetes
-- [ ] Cilium
+- [X] Helm values files other than values.yaml (values-xxx.yaml)
+- [X] Terraform
+- [X] Talos (bootstrap/inline manifests)
+- [X] Kubernetes
+- [X] Cilium
 - [ ] Argo 
 - [ ] General search for "version:"
+
+## AI
+- [ ] Claude Code
+- [ ] DeepSeek Coder
 
 ## Crossplane
 - [X] PKI server certificate
@@ -33,6 +38,7 @@
 - [X] SSH CA
 - [ ] Observe resources
 - [ ] Composition Configuration Package
+- [ ] KCL rewrite       
 
 ## Observability (DevOps Toolkit)
 - [ ] Grafana Stack LGTM
@@ -116,9 +122,9 @@
 - [ ] Supabase
 
 ## Boundary                 
-- [ ] Dev setup                 (plan #1)
-- [ ] Kubernetes deployment     (plan #2)
-- [ ] Vault authentication OIDC     (plan #3)
+- [ ] Dev setup                 
+- [ ] Kubernetes deployment     
+- [ ] Vault authentication OIDC     
 - [ ] .bashrc function to sign certificate for a Boundary session
 - [ ] Proxmox
 - [ ] OPNSense
@@ -159,6 +165,8 @@
 - [ ] ArgoCD
     - [ ] Use a pre-upgrade / pre-install Argo hook to launch
     - [ ] ArgoCD for dev,staging,production environment
+    - [ ] KCL Plugin
+    - [ ] Vault Plugin
 - [X] GitHub actions / worker nodes
 - [ ] GitHub modules/submodules
 - [ ] Gitea
