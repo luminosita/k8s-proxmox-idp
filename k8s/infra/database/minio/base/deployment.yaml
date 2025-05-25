@@ -17,13 +17,13 @@ spec:
     spec:
       containers:
         - name: minio
-          image: quay.io/minio/minio:latest
+          image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z-cpuv1
           imagePullPolicy: Always
           command:
             - /bin/bash
             - -c
           args: 
-            - minio server /data --console-address :9001
+            - minio server /data --console-address ":9001"
           env:
             - name: MINIO_ROOT_USER
               valueFrom:

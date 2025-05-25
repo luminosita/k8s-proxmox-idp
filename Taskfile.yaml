@@ -36,12 +36,13 @@ tasks:
       - task: base
       - kustomize build k8s/infra/auth/vault/overlays/$OVERLAY --enable-helm | kubectl {{.ACTION}} -f -
 
-  vault-crossplane-providers:*:
+  crossplane-providers:*:
     vars:
       ACTION: "{{index .MATCH 0}}"
     cmds:
       - task: base
       - kubectl {{.ACTION}} -f k8s/infra/auth/vault/crossplane/providers
+      - kubectl {{.ACTION}} -f k8s/infra/observability/lgtm/crossplane/providers
 
   vault-crossplane:*:
 #    ignore_error: true
@@ -69,6 +70,15 @@ tasks:
       - task: base
       - kustomize build k8s/infra/database/cnpg/overlays/$OVERLAY | kubectl {{.ACTION}} -f -
       - kustomize build k8s/infra/database/minio/overlays/$OVERLAY | kubectl {{.ACTION}} -f -
+
+  lgtm-crossplane:*:
+    ignore_error: true
+    vars:
+      ACTION: "{{index .MATCH 0}}"
+    cmds:
+      - task: base
+      - kubectl {{.ACTION}} -f k8s/infra/observability/lgtm/crossplane/config
+      - kubectl {{.ACTION}} -f k8s/infra/observability/lgtm/crossplane/resources
 
   build-crossplane:*:
     watch: true

@@ -2,7 +2,6 @@ apiVersion: vault.upbound.io/v1beta1
 kind: ProviderConfig
 metadata:
   name: default
-  namespace: crossplane-system
 spec:
   address: http://vault.vault.svc.cluster.local:8200
   credentials:

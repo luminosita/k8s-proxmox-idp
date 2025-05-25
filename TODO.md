@@ -3,10 +3,11 @@
 - [ ] Talos VM UEFI bootloader
 - [ ] Talos VM settings (OPNSense guide, homenetworkguy) 
 - [ ] Bash Terminal improvements (DevOps Toolkit)
+- [ ] Claude Code 
 - [ ] Use a pre-upgrade / pre-install Argo hook to launch
 - [x] Proxmox Network Topography
 - [x] Cloudflare Terraform
-- [ ] Taskfile (DevOps Toolkit)
+- [X] Taskfile (DevOps Toolkit)
 - [ ] Renovate (Terraform, Homebrew, Proxmox Apt, Talos, Kubernetes, Cilium, Routers, Argo, Flux, search for "version:") 
 - [ ] ArgoCD for dev,staging,production environment
 - [ ] Nix Shell
@@ -51,10 +52,10 @@
         - [x] Wait for the transit credentials secret to become available (argo presync hook ?)
         - [x] Auto unseal with transit Vault
     - [x] Vault credentials injection
-    - [ ] Vault Kubernetes config from init job script to crossplane
-    - [ ] Vault static secrets operator
+    - [x] Vault Kubernetes config from init job script to crossplane
+    - [x] Vault static secrets operator
         - [x] Configuration
-        - [ ] Crossplane
+        - [X] Crossplane
     - [ ] Vault dynamic secrets
         - [ ] Crossplane
         - [ ] Vault Secrets Operator client cache config (https://developer.hashicorp.com/vault/tutorials/kubernetes/vault-secrets-operator#transit-encryption)
@@ -63,7 +64,7 @@
     - [ ] Crossplane Bucket creation
     - [x] Admin credentials
 - [ ] PSQL (DevOps Toolkit)
-    - [ ] Superuser static credentials
+    - [x] Superuser static credentials
     - [ ] Atlas Operator (DevOps Toolkit)
     - [ ] Crossplane DB creation
     - [ ] DB credentials (DevOps Toolkit - crossplane tutorial)
@@ -71,17 +72,6 @@
     - [ ] slapd.d with Vault Template Inject (credentials)
 - [ ] Redis
     - [ ] Credentials
-
-## API
-
-- [ ] KrakenD                                                   
-- [ ] gRPC plugin for KrakenD 
-
-## UI
-
-- [ ] React with OpenLDAP as backend or Backstage
-- [ ] CRUD UI
-- [ ] CRUD backend OpenLDAP
 
 ## Boundary                 
 
@@ -101,6 +91,17 @@
 - [ ] Kubernetes
 - [ ] Grafana
 - [ ] Git repo templates
+
+## API
+
+- [ ] KrakenD                                                   
+- [ ] gRPC plugin for KrakenD 
+
+## UI
+
+- [ ] React with OpenLDAP as backend or Backstage
+- [ ] CRUD UI
+- [ ] CRUD backend OpenLDAP
 
 ### Misc
 
@@ -160,11 +161,11 @@
 
 ## 🏗️ Work in Progress
 
-- [ ] Cloudflare Terraform
+- [ ] Cloudflare Terraform fix issues with local domain fallback
 - [x] DNS resolving from internel K8s network to outside (NFS mount with fixed IP)
 - [ ] Renovate
 - [ ] Remark42
-- [ ] Taskfile
+- [x] Taskfile
 - [x] DNS records: internal (VPN, Cloudflare) and external
 - [x] Finish README
 - [x] Gollum with local-path provisioner 
