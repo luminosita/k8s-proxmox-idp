@@ -9,7 +9,7 @@
       "(^|/)kustomization\\.ya?ml(\\.j2)?$"
     ]
   },
-  "helm": {
+  "helm-extra": {
     "fileMatch": [
       "(^|/)values[\\w+\\-]*\\.ya?ml$"
     ]
