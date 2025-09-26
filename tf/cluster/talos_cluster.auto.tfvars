@@ -12,7 +12,7 @@ talos_cluster_config = {
   kubernetes_version  = "v1.33.1" # renovate: github-releases=kubernetes/kubernetes
   gateway_api_version = "v1.3.0" # renovate: github-releases=kubernetes-sigs/gateway-api
   cilium = {
-    version                 = "v1.17.4" # renovate: github-releases=cilium/cilium
+    version                 = "v1.18.2" # renovate: github-releases=cilium/cilium
     values_file_path        = "../../k8s/infra/network/cilium/values.yaml"
   }
   # kubelet    = <<-EOT
