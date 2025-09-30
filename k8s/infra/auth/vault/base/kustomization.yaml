@@ -18,13 +18,13 @@ resources:
 helmCharts:
   - name: vault
     repo: https://helm.releases.hashicorp.com
-    version: v0.30.0
+    version: 0.31.0
     releaseName: vault-transit
     namespace: vault
     valuesFile: values-transit.yaml
   - name: vault
     repo: https://helm.releases.hashicorp.com
-    version: v0.30.0
+    version: 0.31.0
     releaseName: vault
     namespace: vault
     valuesFile: values.yaml
